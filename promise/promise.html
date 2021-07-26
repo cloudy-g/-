@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 手写 promise
+    function Promise1(executor) {
+      this.status = 'pendding';
+      this.data = null;
+      this.reason = '';
+      this.resolves = null;
+      this.rejects = null;
+
+      const resolve = (data) => {
+        if (this.status === 'pendding') {
+          this.status = 'resolved';
+          this.data = data;
+        }
+      }
+
+      const reject = (reason) => {
+        if (this.status === 'pendding') {
+          this.status = 'rejected';
+          this.reason = reason;
+        }
+      }
+
+      try {
+        executor(resolve, reject);
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    let emptyFn = () => ({});
+    Promise1.prototype.then = function (resolve, reject) {
+      this.resolves = resolve == null ? emptyFn : resolve;
+      this.rejects = reject == null ? emptyFn : reject;
+      let p1 = new Promise1();
+      setTimeout(() => {
+        if (this.status === 'resolved') {
+          try {
+            p1.data = this.resolves(this.data);
+            p1.status = 'resolved';
+          } catch (e) {
+            p1.reason = e;
+            p1.status = 'rejected'
+          }
+        }
+        if (this.status === 'rejected') {
+          try {
+            p1.data = this.rejects(this.reason);
+            p1.status = 'resolved';
+          } catch (e) {
+            p1.reason = e;
+            p1.status = 'rejected'
+          }
+        }
+      })
+      return p1;
+    }
+
+
+    let p = new Promise1((res, rej) => {
+      setTimeout(() => {
+        res('1')
+      })
+    }).then((res) => {
+      console.log(res);
+      return res + 1
+    }).then((res) => {
+      console.log(res);
+    });
+    console.log(p);
+    console.log('end');
+  </script>
+</body>
+
+</html>

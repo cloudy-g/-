@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="div" style="height: 300px; width: 100px;overflow: scroll;">
+    <ul id="list"></ul>
+  </div>
+  <script>
+    let list = document.getElementById('list');
+    let div = document.getElementById('div');
+
+    function load() {
+      for (let i = 0; i < 50; i++) {
+        let li = document.createElement('li');
+        li.innerHTML = i;
+        list.appendChild(li);
+      }
+    }
+    load();
+    div.addEventListener('scroll', (e) => {
+      console.log(e.target.scrollTop);
+      if (e.target.scrollTop + e.target.clientHeight >= e.target.scrollHeight) {
+        load();
+      }
+    });
+  </script>
+</body>
+
+</html>

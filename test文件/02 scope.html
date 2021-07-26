@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 'use strict'
+
+    // es6的默认变量语法(不用let,var,const修饰)，块级作用域内只有当执行到当前行代码时，才会挂载到window上
+    let a = 1;
+    // window.a = 1;
+    {
+      console.log(a); // 访问当前作用域的变量 提升的函数声明
+      a = 2; // 这个变量会被提升，然后赋值
+      
+      function a() {} // 函数声明的a  类似var了一个变量
+      
+      a = 3;
+    }
+    console.log(a);
+
+    // function f1() {
+    //   'use strict'
+    //   console.log(this);
+    // }
+    // f1();
+    // console.log(this);
+    // b = 1;
+    // let b = 2;
+  </script>
+</body>
+
+</html>

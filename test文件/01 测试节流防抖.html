@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div style="height: 10000px;"></div>
+  <script>
+    const debounce = function (fn, diff) {
+      let timer = null;
+      return (...args) => {
+        timer && clearTimeout(timer);
+        timer = setTimeout(() => {
+          fn.apply(this, args);
+        }, diff);
+      }
+    }
+    // throttle 节流  可以让该高频触发的函数间隔一段时间执行一次，
+    const throttle = function (fn, diff) {
+      let start = +(new Date());
+      return function (...args) {
+        let end = +(new Date());
+
+        if (end - start >= diff) {
+          fn.apply(this, args);
+          start = +(new Date());
+        }
+      }
+    }
+    // 实现
+    window.addEventListener('scroll', debounce(() => {
+      console.log('debounce-scroll');
+    }, 1000));
+    window.addEventListener('scroll', throttle(() => {
+      console.log('throttle-scroll');
+    }, 3000));
+  </script>
+</body>
+
+</html>

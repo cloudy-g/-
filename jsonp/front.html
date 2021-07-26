@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>jsonp</title>
+</head>
+
+<body>
+  <div id="div"></div>
+  <script>
+    function jsonp(data) {
+      console.log(data);
+      let div = document.getElementById('div');
+      div.innerHTML = data.msg;
+    }
+    let spt = document.createElement('script');
+    spt.src = "http://localhost:7000?callback=jsonp";
+    document.body.appendChild(spt);
+  </script>
+</body>
+
+</html>
